@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) [%class] [%thread] %cyan(%logger{36}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_INFO_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app-info.json</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>IGNORE</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/app-info-%d{yyyy-MM-dd}.%i.json</fileNamePattern>
+            <maxFileSize>1KB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app-error.json</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/app-error-%d{yyyy-MM-dd}.%i.json</fileNamePattern>
+            <maxFileSize>1MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <root>
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE_INFO_WARN" />
+        <appender-ref ref="FILE_ERROR" />
+    </root>
+</configuration>

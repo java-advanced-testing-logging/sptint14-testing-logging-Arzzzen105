@@ -32,6 +32,9 @@ class ToDoControllerTest {
     private ToDoService todoService;
 
     @MockBean
+    private TaskService taskService;
+
+    @MockBean
     private UserService userService;
 
     @MockBean
