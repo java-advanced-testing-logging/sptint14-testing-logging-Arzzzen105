@@ -82,4 +82,29 @@ class ToDoRepositoryTest {
         assertThat(actual).
                 contains(todo1, todo2);
     }
+
+    @Test
+    void existsByTitleAndIdNot() {
+        User user = new User();
+        user.setFirstName("First");
+        user.setLastName("Last");
+        user.setEmail("test@mail.com");
+        user.setPassword("password123");
+        user.setRole(UserRole.USER);
+        em.persist(user);
+        ToDo todo1 = new ToDo();
+        todo1.setTitle("Personal");
+        todo1.setOwner(user);
+        em.persist(todo1);
+
+        ToDo todo2 = new ToDo();
+        todo2.setTitle(todo1.getTitle());
+        todo2.setId(todo1.getId() + 1);
+
+        em.flush(); em.clear();
+
+        boolean actual = todoRepository.existsByTitleAndIdNot(todo2.getTitle(), todo2.getId());
+
+        assertTrue(actual);
+    }
 }

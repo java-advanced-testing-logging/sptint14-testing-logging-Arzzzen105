@@ -35,7 +35,7 @@ public class ToDo {
     private LocalDateTime createdAt;
 
     @NotNull(message = "The 'owner' cannot be null")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "owner_id")
     private User owner;
 

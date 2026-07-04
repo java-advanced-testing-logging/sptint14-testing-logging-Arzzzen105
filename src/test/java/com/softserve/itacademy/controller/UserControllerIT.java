@@ -50,13 +50,6 @@ class UserControllerIT {
 
         user = userRepository.save(user);
 
-        UpdateUserDto dto = new UpdateUserDto();
-        dto.setId(user.getId());
-        dto.setFirstName("Arseniy");
-        dto.setLastName(user.getLastName());
-        dto.setRole(user.getRole());
-        dto.setEmail(user.getEmail());
-
         mockMvc.perform(post("/users/1/update")
                 .param("firstName", "Arseniy")
                 .param("lastName", "Smetaniak")
