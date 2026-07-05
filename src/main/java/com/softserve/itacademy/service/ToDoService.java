@@ -22,8 +22,8 @@ public class ToDoService {
 
     @Transactional
     public ToDo create(ToDo todo) {
-        log.info("Creating a new ToDo with ID {}", todo.getId());
         if (todo != null) {
+            log.info("Creating a new ToDo with ID {}", todo.getId());
             if (todoRepository.existsByTitle(todo.getTitle())) {
                 log.warn("ToDo with title {} already exists.", todo.getTitle());
                 throw new IllegalArgumentException("ToDo with title '" + todo.getTitle() + "' already exists");
@@ -46,8 +46,8 @@ public class ToDoService {
 
     @Transactional
     public ToDo update(ToDo todo) {
-        log.info("Updating a ToDo with ID {}.", todo.getId());
         if (todo != null) {
+            log.info("Updating a ToDo with ID {}.", todo.getId());
             if (todoRepository.existsByTitleAndIdNot(todo.getTitle(), todo.getId())) {
                 log.warn("Tried to create already existing ToDo.");
                 throw new IllegalArgumentException("ToDo with title '" + todo.getTitle() + "' already exists");

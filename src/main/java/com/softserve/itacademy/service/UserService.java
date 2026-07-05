@@ -36,8 +36,8 @@ public class UserService {
 
     @Transactional
     public User create(User user) {
-        log.info("Creating a new User with first name: {} and email: {}", user.getFirstName(), user.getEmail());
         if (user != null) {
+            log.info("Creating a new User with first name: {} and email: {}", user.getFirstName(), user.getEmail());
             if (userRepository.findByEmail(user.getEmail()).isPresent()) {
                 log.warn("Attempted to create an already existing user! ID: {}", user.getId());
                 throw new IllegalArgumentException("User with email '" + user.getEmail() + "' already exists");

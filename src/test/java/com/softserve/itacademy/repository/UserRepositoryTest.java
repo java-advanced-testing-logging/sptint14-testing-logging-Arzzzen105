@@ -33,6 +33,8 @@ class UserRepositoryTest {
 
         em.persist(user);
 
+        em.flush(); em.clear();
+
         Optional<User> found = userRepository.findByEmail("mail@mail.mail");
 
         assertThat(found).isNotEmpty();
@@ -49,6 +51,8 @@ class UserRepositoryTest {
         user.setPassword("P@ssW0rd!");
 
         em.persist(user);
+
+        em.flush(); em.clear();
 
         Optional<User> found = userRepository.findByEmail("hello@world.net");
 
