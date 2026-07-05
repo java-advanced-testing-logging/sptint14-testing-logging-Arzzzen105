@@ -81,6 +81,8 @@ class ToDoServiceTest {
         ToDo found = todoService.readById(1L);
 
         assertEquals(todo, found);
+
+        verify(todoRepository, times(1)).findById(1L);
     }
 
     @Test
@@ -148,7 +150,7 @@ class ToDoServiceTest {
 
     @Test
     void removeCollaboratorShouldRemoveUserAndCallUpdate() {
-        todo.getCollaborators().add(user); // спочатку додаємо
+        todo.getCollaborators().add(user);
 
         when(todoRepository.findById(1L)).thenReturn(Optional.of(todo));
         when(todoRepository.existsByTitleAndIdNot(todo.getTitle(), todo.getId())).thenReturn(false);
@@ -168,6 +170,8 @@ class ToDoServiceTest {
         List<ToDo> result = todoService.getAll();
 
         assertThat(result).hasSize(1).contains(todo);
+
+        verify(todoRepository, times(1)).findAll();
     }
 
     @Test
@@ -177,5 +181,7 @@ class ToDoServiceTest {
         List<ToDo> result = todoService.getByUserId(2L);
 
         assertThat(result).hasSize(1).contains(todo);
+
+        verify(todoRepository, times(1)).getByUserId(2L);
     }
 }

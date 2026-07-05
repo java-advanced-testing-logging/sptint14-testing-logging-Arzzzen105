@@ -53,6 +53,8 @@ class UserControllerTest {
                 .param("password", "P@ssW0rd"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/todos/all/users/1"));
+
+        verify(userService, times(1)).register(any(CreateUserDto.class));
     }
 
     @Test
@@ -79,6 +81,8 @@ class UserControllerTest {
                 .andExpect((model().attributeExists("user")))
                 .andExpect(model().attribute("user", user))
                 .andExpect(view().name("user-info"));
+
+        verify(userService, times(1)).readById(1L);
     }
 
     @Test
@@ -89,15 +93,7 @@ class UserControllerTest {
         user.setLastName("Last");
         user.setEmail("mail@mail.mail");
         user.setRole(UserRole.USER);
-        when(userService.readById((anyLong()))).thenReturn(user);
-        UserDto dto = UserDto.builder()
-                .id(1L)
-                .firstName("First")
-                .lastName("Last")
-                .email("mail@mail.mail")
-                .role(UserRole.USER)
-                .build();
-        when(userService.update(any(CreateUserDto.class))).thenReturn(dto);
+        when(userService.readById(anyLong())).thenReturn(user);
 
         mockMvc.perform(get("/users/1/update")
                 .param("id", "1"))
@@ -105,6 +101,8 @@ class UserControllerTest {
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attributeExists("roles"))
                 .andExpect(view().name("update-user"));
+
+        verify(userService, times(1)).readById(anyLong());
     }
 
     @Test

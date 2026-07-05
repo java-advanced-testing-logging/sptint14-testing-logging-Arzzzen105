@@ -86,7 +86,6 @@ class ToDoControllerTest {
     void createToDoShouldReturnFormWhenValidationFails() throws Exception {
         mockMvc.perform(post("/todos/create/users/1")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        // Передаємо пустий title, щоб BindingResult спіймав помилку
                         .param("title", ""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("create-todo"))
@@ -121,6 +120,8 @@ class ToDoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("update-todo"))
                 .andExpect(model().attributeExists("todo"));
+
+        verify(todoService, times(1)).readById(10L);
     }
 
     @Test

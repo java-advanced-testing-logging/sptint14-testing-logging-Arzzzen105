@@ -62,6 +62,9 @@ class UserServiceTest {
         assertEquals(UserRole.USER, createDto.getRole());
         assertEquals("{noop}P@ssW0rd", user.getPassword());
         assertEquals(user, registered);
+
+        verify(userRepository, times(1)).findByEmail(any());
+        verify(userRepository, times(1)).save(any());
     }
 
     @Test
@@ -122,6 +125,7 @@ class UserServiceTest {
         assertEquals(UserRole.USER, user.getRole());
         assertNull(updateDto.getRole());
         assertEquals(expectedDto, result);
+
         verify(userRepository).save(user);
     }
 
@@ -139,6 +143,8 @@ class UserServiceTest {
 
         assertEquals(UserRole.USER, user.getRole());
         assertNull(updateDto.getRole());
+
+        verify(userRepository, times(1)).findById(1L);
     }
 
     @Test
